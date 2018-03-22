@@ -1,3 +1,4 @@
+ip和端口号整理
 mysql=192.168.133.131:3306
 sellergoods_service=localhost:9001
 dubbo(server)=192.168.133.131:2181
