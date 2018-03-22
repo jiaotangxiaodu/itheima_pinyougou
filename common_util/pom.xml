@@ -8,10 +8,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>sellergoods_interface</artifactId>
+    <artifactId>common_util</artifactId>
     <packaging>jar</packaging>
 
-    <name>sellergoods_interface</name>
+    <name>common_util</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -20,10 +20,10 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.pinyougou</groupId>
-            <artifactId>common_pojo</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
         </dependency>
-
     </dependencies>
 </project>

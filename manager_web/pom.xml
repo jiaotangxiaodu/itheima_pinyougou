@@ -7,13 +7,11 @@
         <relativePath>../common_parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>sellergoods_service</artifactId>
+    <artifactId>manager_web</artifactId>
     <packaging>war</packaging>
-    <name>sellergoods_service Maven Webapp</name>
+    <name>manager_web Maven Webapp</name>
     <url>http://maven.apache.org</url>
-
     <dependencies>
-
         <!-- Spring -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -82,20 +80,14 @@
             <scope>provided</scope>
         </dependency>
 
-        <!--工程内依赖-->
-        <dependency>
-            <groupId>com.pinyougou</groupId>
-            <artifactId>common_dao</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
+        <!--项目内依赖-->
         <dependency>
             <groupId>com.pinyougou</groupId>
             <artifactId>sellergoods_interface</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
     </dependencies>
+
 
     <build>
         <plugins>
@@ -105,14 +97,11 @@
                 <version>2.2</version>
                 <configuration>
                     <!-- 指定端口 -->
-                    <port>9001</port>
+                    <port>9101</port>
                     <!-- 请求路径 -->
                     <path>/</path>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
-
-
 </project>
