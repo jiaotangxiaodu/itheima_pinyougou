@@ -14,74 +14,11 @@
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
     <script src="../plugins/angularjs/angular.min.js"></script>
     <script src="../plugins/angularjs/pagination.js"></script>
-    <script type="application/javascript">
-        var app = angular.module("pinyougou", ["pagination"]);
-        app.controller("brandController", function ($scope, $http) {
-/*            $scope.loadBrands = function () {
-                $http.get("../brand/findAll.do").success(function (data) {
-                    $scope.brands = data;
-                });
-            }*/
-            $scope.paginationConf ={
-                currentPage: 1,
-                totalItems: 0,
-                itemsPerPage: 10,
-                perPageOptions: [10, 20, 30, 40, 50],
-                onChange: function(){
-                    $scope.reload0();
-                }
-            }
-            $scope.reload0=function () {
-                $scope.reload($scope.paginationConf.currentPage,$scope.paginationConf.itemsPerPage);
-            }
 
-            $scope.reload = function(pageNum,pageSize){
-                $http.get("../brand/findByPage.do?pageNum="+pageNum+"&pageSize="+pageSize).success(function (response) {
-                    $scope.paginationConf.totalItems = response.total;
-                    $scope.brands = response.rows;
-                })
-            }
-
-            $scope.addOrUpdate = function () {
-                var id = $scope.entity.id;
-                if(id == null || id == ""){
-                    $scope.add();
-                }else{
-                    $scope.update();
-                }
-            }
-
-            $scope.add = function(){
-                $http.post("../brand/add.do",$scope.entity).success(function (response) {
-                    if(response.success){
-                        $scope.reload0()
-                    }else{
-                        alert(response.info);
-                    }
-                })
-            }
-
-            $scope.update = function () {
-                $http.post("../brand/update.do",$scope.entity).success(function (response) {
-                    if(response.success){
-                        $scope.reload0()
-                    }else{
-                        alert(response.info);
-                    }
-                })
-            }
-            
-            $scope.findById = function (id) {
-                $http.get("../brand/findById.do?id="+id).success(function (response) {
-                    $scope.entity = {};
-                    $scope.entity.id = response.id;
-                    $scope.entity.name = response.name;
-                    $scope.entity.firstChar = response.firstChar;
-                });
-            }
-
-        });
-    </script>
+    <script src="../js/base/base-pagination.js"></script>
+    <script src="../js/service/brandService.js"></script>
+    <script src="../js/controller/baseController.js"></script>
+    <script src="../js/controller/brandController.js"></script>
 </head>
 <body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="brandController">
 <!-- .box-body -->
@@ -90,18 +27,17 @@
 </div>
 
 <div class="box-body">
-
     <!-- 数据表格 -->
     <div class="table-box">
-
+        selections ={{selections}}
         <!--工具栏-->
         <div class="pull-left">
             <div class="form-group form-inline">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default" title="新建" data-toggle="modal"
-                            data-target="#editModal" ng-click="entity={}"><i class="fa fa-file-o"></i> 新建
+                            data-target="#editModal" ng-click="insertOrUpdateEntity={}"><i class="fa fa-file-o"></i> 新建
                     </button>
-                    <button type="button" class="btn btn-default" title="删除"><i class="fa fa-trash-o"></i> 删除</button>
+                    <button type="button" class="btn btn-default" title="删除" ng-click="delete()"><i class="fa fa-trash-o"></i> 删除</button>
                     <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i
                             class="fa fa-refresh"></i> 刷新
                     </button>
@@ -110,7 +46,8 @@
         </div>
         <div class="box-tools pull-right">
             <div class="has-feedback">
-
+                品牌名称<input ng-model="searchEntity.name"/> 品牌首字母<input ng-model="searchEntity.firstChar"/>
+                <button ng-click="reloadList()">查询</button>
             </div>
         </div>
         <!--工具栏/-->
@@ -129,8 +66,8 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="brand in brands">
-                <td><input type="checkbox"></td>
+            <tr ng-repeat="brand in searchList">
+                <td><input type="checkbox" ng-click="updateSelections($event,brand.id)"></td>
                 <td>{{brand.id}}</td>
                 <td>{{brand.name}}</td>
                 <td>{{brand.firstChar}}</td>
@@ -139,6 +76,7 @@
                     </button>
                 </td>
             </tr>
+
             </tbody>
         </table>
         <!--数据列表/-->
@@ -162,17 +100,17 @@
                 <table class="table table-bordered table-striped" width="800px">
                     <tr>
                         <td>品牌名称</td>
-                        <td><input class="form-control" placeholder="品牌名称" ng-model="entity.name"></td>
+                        <td><input class="form-control" placeholder="品牌名称" ng-model="insertOrUpdateEntity.name"></td>
                     </tr>
                     <tr>
                         <td>首字母</td>
-                        <td><input class="form-control" placeholder="首字母" ng-model="entity.firstChar"></td>
+                        <td><input class="form-control" placeholder="首字母" ng-model="insertOrUpdateEntity.firstChar"></td>
                     </tr>
                 </table>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="addOrUpdate()">保存</button>
-                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</button>
+                <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="saveOrUpdate()">保存</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true" ng-click="insertOrUpdateEntity={}">关闭</button>
             </div>
         </div>
     </div>

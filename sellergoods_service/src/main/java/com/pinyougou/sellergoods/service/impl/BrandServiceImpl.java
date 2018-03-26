@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.pinyougou.entries.PageResult;
 import com.pinyougou.mapper.TbBrandMapper;
 import com.pinyougou.pojo.TbBrand;
+import com.pinyougou.pojo.TbBrandExample;
 import com.pinyougou.sellergoods.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -35,6 +36,27 @@ public class BrandServiceImpl implements BrandService{
     }
 
     @Override
+    public PageResult<TbBrand> searchByPage(int pageNum, int pageSize, TbBrand searchBrand) {
+        if(searchBrand == null){
+            return findByPage(pageNum,pageSize);
+        }
+        String name = searchBrand.getName();
+        String firstChar = searchBrand.getFirstChar();
+        PageHelper.startPage(pageNum,pageSize);
+        TbBrandExample example = new TbBrandExample();
+        TbBrandExample.Criteria criteria = example.createCriteria();
+        if(name != null && name.length() > 0){
+            criteria.andNameLike("%"+name + "%");
+        }
+        if(firstChar!=null && firstChar.length()==1){
+            criteria.andFirstCharEqualTo(firstChar);
+        }
+        Page<TbBrand> page = (Page<TbBrand>) brandMapper.selectByExample(example);
+        return new PageResult<>(page.getTotal(),page.getResult());
+
+    }
+
+    @Override
     public void add(TbBrand brand) {
         brandMapper.insert(brand);
     }
@@ -47,5 +69,12 @@ public class BrandServiceImpl implements BrandService{
     @Override
     public void update(TbBrand brand) {
         brandMapper.updateByPrimaryKey(brand);
+    }
+
+    @Override
+    public void delete(Long... ids) {
+        for (Long id : ids) {
+            brandMapper.deleteByPrimaryKey(id);
+        }
     }
 }

@@ -24,11 +24,21 @@ public class BrandController {
         return brandService.findAll();
     }
 
+
     @RequestMapping("findByPage")
     public PageResult<TbBrand> findByPage(@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize) {
         return brandService.findByPage(pageNum,pageSize);
     }
 
+    @RequestMapping("search")
+    public PageResult<TbBrand> search(@RequestParam("pageNum") int pageNum, @RequestParam("pageSize") int pageSize , @RequestBody TbBrand searchBrand) {
+        return brandService.searchByPage(pageNum,pageSize,searchBrand);
+    }
+
+    @RequestMapping("findById")
+    public TbBrand findById(@RequestParam("id") Long id){
+        return brandService.findById(id);
+    }
     @RequestMapping("add")
     public ResultInfo add(@RequestBody TbBrand brand){
 
@@ -41,10 +51,7 @@ public class BrandController {
         }
     }
 
-    @RequestMapping("findById")
-    public TbBrand findById(@RequestParam("id") Long id){
-        return brandService.findById(id);
-    }
+
 
     @RequestMapping("update")
     public ResultInfo update(@RequestBody TbBrand brand){
@@ -56,5 +63,18 @@ public class BrandController {
             return new ResultInfo(false,"更新失败");
         }
     }
+
+    @RequestMapping("delete")
+    public ResultInfo delete(@RequestParam("ids") Long[] ids){
+        try {
+            brandService.delete(ids);
+            return new ResultInfo(true,"删除成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultInfo(false,"删除失败");
+        }
+    }
+
+
 
 }

@@ -6,11 +6,18 @@ import com.pinyougou.pojo.TbBrand;
 import java.util.List;
 
 public interface BrandService {
-    List<TbBrand> findAll();
-    PageResult<TbBrand> findByPage(int pageNum,int pageSize);
-    void add(TbBrand brand);
-
     TbBrand findById(Long id);
 
+    List<TbBrand> findAll();
+
+    PageResult<TbBrand> findByPage(int pageNum, int pageSize);
+
+    PageResult<TbBrand> searchByPage(int pageNum, int pageSize, TbBrand searchBrand);
+
+    void add(TbBrand brand);
+
+
     void update(TbBrand brand);
+
+    void delete(Long[] ids);
 }
