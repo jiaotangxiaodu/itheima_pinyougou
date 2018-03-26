@@ -1,22 +1,32 @@
-app.service("brandService",function ($http) {
-    var baseUrl = "../brand/"
-    this.search = function (pageNum,pageSize,searchEntity) {
-        if(searchEntity == null){
-            return $http.get(baseUrl+"findByPage.do?pageNum="+pageNum+"&pageSize="+pageSize);
-        }else{
-            return $http.post(baseUrl+"search.do?pageNum="+pageNum+"&pageSize="+pageSize,searchEntity);
-        }
-    }
-    this.insert = function (brand) {
-        return $http.post(baseUrl+"add.do",brand);
-    }
-    this.update = function (brand) {
-        return $http.post(baseUrl+"update.do",brand);
-    }
-    this.findById = function (id) {
-        return $http.get(baseUrl+"findById.do?id="+id);
-    }
-    this.delete = function (ids) {
-        return $http.get(baseUrl+"delete.do?ids="+ids);
-    }
-})
+//服务层
+app.service('brandService',function($http){
+	    	
+	//读取列表数据绑定到表单中
+	this.findAll=function(){
+		return $http.get('../brand/findAll.do');		
+	}
+	//分页 
+	this.findPage=function(page,rows){
+		return $http.get('../brand/findPage.do?page='+page+'&rows='+rows);
+	}
+	//查询实体
+	this.findOne=function(id){
+		return $http.get('../brand/findOne.do?id='+id);
+	}
+	//增加 
+	this.add=function(entity){
+		return  $http.post('../brand/add.do',entity );
+	}
+	//修改 
+	this.update=function(entity){
+		return  $http.post('../brand/update.do',entity );
+	}
+	//删除
+	this.dele=function(ids){
+		return $http.get('../brand/delete.do?ids='+ids);
+	}
+	//搜索
+	this.search=function(page,rows,searchEntity){
+		return $http.post('../brand/search.do?page='+page+"&rows="+rows, searchEntity);
+	}    	
+});

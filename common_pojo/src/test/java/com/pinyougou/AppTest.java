@@ -1,4 +1,4 @@
-package com.pinyougou;
+package com.itheima.pinyougou;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

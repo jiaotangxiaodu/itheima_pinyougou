@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>common_parent</artifactId>
-        <groupId>com.pinyougou</groupId>
+        <groupId>com.itheima.pinyougou</groupId>
         <version>1.0-SNAPSHOT</version>
         <relativePath>../common_parent/pom.xml</relativePath>
     </parent>
@@ -20,7 +20,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.pinyougou</groupId>
+            <groupId>com.itheima.pinyougou</groupId>
             <artifactId>common_pojo</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>

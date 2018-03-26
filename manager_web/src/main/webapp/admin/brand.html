@@ -15,7 +15,7 @@
     <script src="../plugins/angularjs/angular.min.js"></script>
     <script src="../plugins/angularjs/pagination.js"></script>
 
-    <script src="../js/base/base-pagination.js"></script>
+    <script src="../js/base_pagination.js"></script>
     <script src="../js/service/brandService.js"></script>
     <script src="../js/controller/baseController.js"></script>
     <script src="../js/controller/brandController.js"></script>
@@ -29,7 +29,6 @@
 <div class="box-body">
     <!-- 数据表格 -->
     <div class="table-box">
-        selections ={{selections}}
         <!--工具栏-->
         <div class="pull-left">
             <div class="form-group form-inline">
@@ -37,7 +36,7 @@
                     <button type="button" class="btn btn-default" title="新建" data-toggle="modal"
                             data-target="#editModal" ng-click="insertOrUpdateEntity={}"><i class="fa fa-file-o"></i> 新建
                     </button>
-                    <button type="button" class="btn btn-default" title="删除" ng-click="delete()"><i class="fa fa-trash-o"></i> 删除</button>
+                    <button type="button" class="btn btn-default" title="删除" ng-click="dele()"><i class="fa fa-trash-o"></i> 删除</button>
                     <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i
                             class="fa fa-refresh"></i> 刷新
                     </button>
@@ -66,13 +65,13 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="brand in searchList">
-                <td><input type="checkbox" ng-click="updateSelections($event,brand.id)"></td>
+            <tr ng-repeat="brand in list">
+                <td><input type="checkbox" ng-click="updateSelection($event,brand.id)"></td>
                 <td>{{brand.id}}</td>
                 <td>{{brand.name}}</td>
                 <td>{{brand.firstChar}}</td>
                 <td class="text-center">
-                    <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" ng-click="findById(brand.id)">修改
+                    <button type="button" class="btn bg-olive btn-xs" data-toggle="modal" data-target="#editModal" ng-click="findOne(brand.id)">修改
                     </button>
                 </td>
             </tr>
@@ -100,17 +99,17 @@
                 <table class="table table-bordered table-striped" width="800px">
                     <tr>
                         <td>品牌名称</td>
-                        <td><input class="form-control" placeholder="品牌名称" ng-model="insertOrUpdateEntity.name"></td>
+                        <td><input class="form-control" placeholder="品牌名称" ng-model="entity.name"></td>
                     </tr>
                     <tr>
                         <td>首字母</td>
-                        <td><input class="form-control" placeholder="首字母" ng-model="insertOrUpdateEntity.firstChar"></td>
+                        <td><input class="form-control" placeholder="首字母" ng-model="entity.firstChar"></td>
                     </tr>
                 </table>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="saveOrUpdate()">保存</button>
-                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true" ng-click="insertOrUpdateEntity={}">关闭</button>
+                <button class="btn btn-success" data-dismiss="modal" aria-hidden="true" ng-click="save()">保存</button>
+                <button class="btn btn-default" data-dismiss="modal" aria-hidden="true" ng-click="entity={}">关闭</button>
             </div>
         </div>
     </div>

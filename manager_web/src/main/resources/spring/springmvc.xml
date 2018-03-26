@@ -26,6 +26,6 @@
 	<!-- 引用dubbo 服务 -->
 	<dubbo:application name="pinyougou-manager-web" />
 	<dubbo:registry address="zookeeper://47.106.65.208:2181"/>
-	<dubbo:annotation package="com.pinyougou.manager.controller" />
+	<dubbo:annotation package="com.itheima.pinyougou.manager.controller" />
 
 </beans>
