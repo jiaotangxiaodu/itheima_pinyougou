@@ -40,8 +40,7 @@ app.controller('baseController', function ($scope) {
     $scope.extractStringFromArrayString = function (arrayString,extractKey) {
         var array = JSON.parse(arrayString)
         var keyArray = $scope.extractFromArray(array,extractKey);
-        var s = keyArray.toString();
-        return s;
+        return keyArray.toString();
     }
     $scope.extractFromArray = function (array,extractKey) {
         var keys = [];
