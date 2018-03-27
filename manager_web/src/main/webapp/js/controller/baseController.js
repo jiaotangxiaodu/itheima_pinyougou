@@ -37,4 +37,17 @@ app.controller('baseController', function ($scope) {
         array.splice(idx,1);
         return true;
     }
-});	
+    $scope.extractStringFromArrayString = function (arrayString,extractKey) {
+        var array = JSON.parse(arrayString)
+        var keyArray = $scope.extractFromArray(array,extractKey);
+        var s = keyArray.toString();
+        return s;
+    }
+    $scope.extractFromArray = function (array,extractKey) {
+        var keys = [];
+        array.forEach(function (item) {
+            keys.push(item[extractKey]);
+        });
+        return keys;
+    }
+});
