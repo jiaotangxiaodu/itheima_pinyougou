@@ -25,7 +25,7 @@
 </head>
 
 <body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="specificationController">
-entity={{entity}}
+selectIds = {{selectIds}}
 <!-- .box-body -->
 <div class="box-header with-border">
     <h3 class="box-title">规格管理</h3>
@@ -41,7 +41,7 @@ entity={{entity}}
                     <button type="button" class="btn btn-default" title="新建" data-toggle="modal"
                             data-target="#editModal" ng-click="entity={tbSpecification:{},tbSpecificationOptions:[]}"><i class="fa fa-file-o"></i> 新建
                     </button>
-                    <button type="button" class="btn btn-default" title="删除"><i class="fa fa-trash-o"></i> 删除</button>
+                    <button type="button" class="btn btn-default" title="删除" ng-click="dele()"><i class="fa fa-trash-o"></i> 删除</button>
 
                     <button type="button" class="btn btn-default" title="刷新" onclick="window.location.reload();"><i
                             class="fa fa-refresh"></i> 刷新
@@ -71,7 +71,7 @@ entity={{entity}}
             <tbody>
 
             <tr ng-repeat="item in list">
-                <td><input type="checkbox"></td>
+                <td><input type="checkbox" ng-click="updateSelection($event,item.id)"></td>
                 <td>{{item.id}}</td>
                 <td>{{item.specName}}</td>
                 <td class="text-center">

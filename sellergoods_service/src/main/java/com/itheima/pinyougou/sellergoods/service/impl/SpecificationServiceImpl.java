@@ -69,8 +69,18 @@ public class SpecificationServiceImpl implements SpecificationService {
      * 修改
      */
     @Override
-    public void update(TbSpecification specification) {
-        specificationMapper.updateByPrimaryKey(specification);
+    public void update(Specification specification) {
+        TbSpecification tbSpecification = specification.getTbSpecification();
+        List<TbSpecificationOption> tbSpecificationOptions = specification.getTbSpecificationOptions();
+        specificationMapper.updateByPrimaryKey(tbSpecification);
+        TbSpecificationOptionExample example = new TbSpecificationOptionExample();
+        TbSpecificationOptionExample.Criteria criteria = example.createCriteria();
+        criteria.andSpecIdEqualTo(tbSpecification.getId());
+        specificationOptionMapper.deleteByExample(example);
+        for (TbSpecificationOption tbSpecificationOption : tbSpecificationOptions) {
+            tbSpecificationOption.setSpecId(tbSpecification.getId());
+            specificationOptionMapper.insert(tbSpecificationOption);
+        }
     }
 
     /**
@@ -100,6 +110,10 @@ public class SpecificationServiceImpl implements SpecificationService {
     public void delete(Long[] ids) {
         for (Long id : ids) {
             specificationMapper.deleteByPrimaryKey(id);
+            TbSpecificationOptionExample example = new TbSpecificationOptionExample();
+            TbSpecificationOptionExample.Criteria criteria = example.createCriteria();
+            criteria.andSpecIdEqualTo(id);
+            specificationOptionMapper.deleteByExample(example);
         }
     }
 
