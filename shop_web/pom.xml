@@ -80,6 +80,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <!--项目内依赖-->
+        <dependency>
+            <groupId>com.itheima.pinyougou</groupId>
+            <artifactId>sellergoods_interface</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
     </dependencies>
 
