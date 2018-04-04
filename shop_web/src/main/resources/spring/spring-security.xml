@@ -6,33 +6,36 @@
 						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
     <!-- 以下页面不被拦截 -->
-    <http pattern="/login.html" security="none"></http>
+    <http pattern="/*.html" security="none"></http>
     <http pattern="/css/**" security="none"></http>
     <http pattern="/img/**" security="none"></http>
     <http pattern="/js/**" security="none"></http>
     <http pattern="/plugins/**" security="none"></http>
+    <http pattern="/seller/add.do" security="none"></http>
 
     <!-- 页面拦截规则 -->
     <http use-expressions="false">
-        <intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
-        <form-login login-page="/login.html" default-target-url="/admin/index.html"
-                    authentication-failure-url="/login.html" always-use-default-target="true"/>
+        <intercept-url pattern="/admin/**" access="ROLE_SELLER"/>
+        <form-login login-page="/shoplogin.html" default-target-url="/admin/index.html"
+                    authentication-failure-url="/shoplogin.html" always-use-default-target="true"/>
         <!--关闭csrf(跨站请求伪造)保护-->
         <csrf disabled="true"/>
         <!--允许同源域名下iframe的跨域访问-->
         <headers>
             <frame-options policy="SAMEORIGIN"/>
         </headers>
-        <logout logout-success-url="/login.html"/>
+        <logout logout-success-url="/shoplogin.html"/>
     </http>
 
     <!-- 认证管理器 -->
     <authentication-manager>
-        <authentication-provider>
-            <user-service>
-                <user name="admin" password="123456" authorities="ROLE_ADMIN"/>
-            </user-service>
+        <authentication-provider user-service-ref="userDetailsService">
+            <password-encoder ref="bCryptPasswordEncoder" />
         </authentication-provider>
     </authentication-manager>
 
+    <beans:bean id="userDetailsService" class="com.itheima.pinyougou.service.UserDetailsServiceImpl">
+        <beans:property name="sellerService" ref="sellerService" />
+    </beans:bean>
+    <beans:bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></beans:bean>
 </beans:beans>

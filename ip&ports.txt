@@ -1,8 +1,10 @@
-ip和端口号整理
+#ip和端口号整理
 mysql=47.106.65.208:3306
 sellergoods_service=localhost:9001
 dubbo(server)=47.106.65.208:2181
 dubbo(sellergoods_service)=${dubbo(server).ip}:20881
 manager_web=localhost:9101
 shop_web=localhost:9102
+#fastFDS地址
+FILE_SERVER_URL=192.168.25.133
 

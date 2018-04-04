@@ -1,16 +1,17 @@
 package com.itheima.pinyougou.sellergoods.service.impl;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.itheima.pinyougou.entity.PageResult;
 import com.itheima.pinyougou.mapper.TbTypeTemplateMapper;
 import com.itheima.pinyougou.pojo.TbTypeTemplate;
 import com.itheima.pinyougou.pojo.TbTypeTemplateExample;
 import com.itheima.pinyougou.pojo.TbTypeTemplateExample.Criteria;
 import com.itheima.pinyougou.sellergoods.service.TypeTemplateService;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.itheima.pinyougou.entity.PageResult;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 服务实现层
@@ -105,5 +106,10 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 		Page<TbTypeTemplate> page= (Page<TbTypeTemplate>)typeTemplateMapper.selectByExample(example);		
 		return new PageResult(page.getTotal(), page.getResult());
 	}
-	
+
+	@Override
+	public List<Map<String, Object>> findOptions() {
+		return typeTemplateMapper.findOptions();
+	}
+
 }

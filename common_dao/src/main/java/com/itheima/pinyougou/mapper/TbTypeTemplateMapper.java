@@ -2,8 +2,10 @@ package com.itheima.pinyougou.mapper;
 
 import com.itheima.pinyougou.pojo.TbTypeTemplate;
 import com.itheima.pinyougou.pojo.TbTypeTemplateExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 public interface TbTypeTemplateMapper {
     int countByExample(TbTypeTemplateExample example);
@@ -27,4 +29,6 @@ public interface TbTypeTemplateMapper {
     int updateByPrimaryKeySelective(TbTypeTemplate record);
 
     int updateByPrimaryKey(TbTypeTemplate record);
+
+    List<Map<String,Object>> findOptions();
 }

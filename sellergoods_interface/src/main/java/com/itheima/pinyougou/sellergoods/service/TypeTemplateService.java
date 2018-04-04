@@ -1,8 +1,9 @@
 package com.itheima.pinyougou.sellergoods.service;
-import java.util.List;
+import com.itheima.pinyougou.entity.PageResult;
 import com.itheima.pinyougou.pojo.TbTypeTemplate;
 
-import com.itheima.pinyougou.entity.PageResult;
+import java.util.List;
+import java.util.Map;
 /**
  * 服务层接口
  * @author Administrator
@@ -57,5 +58,6 @@ public interface TypeTemplateService {
 	 * @return
 	 */
 	public PageResult findPage(TbTypeTemplate typeTemplate, int pageNum, int pageSize);
-	
+
+    List<Map<String,Object>> findOptions();
 }

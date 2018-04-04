@@ -1,8 +1,11 @@
 package com.itheima.pinyougou.sellergoods.service;
-import java.util.List;
-import com.itheima.pinyougou.pojo.TbGoods;
 
 import com.itheima.pinyougou.entity.PageResult;
+import com.itheima.pinyougou.pojo.TbGoods;
+import com.itheima.pinyougou.pojogroup.Goods;
+
+import java.util.List;
+
 /**
  * 服务层接口
  * @author Administrator
@@ -27,7 +30,7 @@ public interface GoodsService {
 	/**
 	 * 增加
 	*/
-	public void add(TbGoods goods);
+	public void add(Goods goods);
 	
 	
 	/**
