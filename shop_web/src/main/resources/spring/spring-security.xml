@@ -16,6 +16,7 @@
     <!-- 页面拦截规则 -->
     <http use-expressions="false">
         <intercept-url pattern="/admin/**" access="ROLE_SELLER"/>
+        <intercept-url pattern="/**" access="ROLE_SELLER"/>
         <form-login login-page="/shoplogin.html" default-target-url="/admin/index.html"
                     authentication-failure-url="/shoplogin.html" always-use-default-target="true"/>
         <!--关闭csrf(跨站请求伪造)保护-->
