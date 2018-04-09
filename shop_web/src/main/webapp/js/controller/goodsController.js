@@ -1,9 +1,9 @@
 //控制层
-app.controller('goodsController', function ($scope, $controller, goodsService,uploadService,itemCatService,typeTemplateService) {
+app.controller('goodsController', function ($scope, $controller,$location, goodsService,uploadService,itemCatService,typeTemplateService) {
 
     $controller('baseController', {$scope: $scope});//继承
 
-    //读取列表数据绑定到表单中  
+    //读取列表数据绑定到表单中
     $scope.findAll = function () {
         goodsService.findAll().success(
             function (response) {
@@ -23,10 +23,26 @@ app.controller('goodsController', function ($scope, $controller, goodsService,up
     }
 
     //查询实体
-    $scope.findOne = function (id) {
+    $scope.findOne = function () {
+        var id = $location.search()['id'];
+
+        if(id == null){
+            return;
+        }
+
         goodsService.findOne(id).success(
             function (response) {
                 $scope.entity = response;
+                editor.html($scope.entity.goodsDesc.introduction);
+                $scope.entity.goodsDesc.itemImages=JSON.parse($scope.entity.goodsDesc.itemImages);
+                $scope.entity.goodsDesc.customAttributeItems=  JSON.parse($scope.entity.goodsDesc.customAttributeItems);
+                $scope.entity.goodsDesc.specificationItems=JSON.parse($scope.entity.goodsDesc.specificationItems);
+                for( var i=0;i<$scope.entity.itemList.length;i++ ){
+                    $scope.entity.itemList[i].spec =
+                        JSON.parse( $scope.entity.itemList[i].spec);
+                }
+                initDescFunction();
+
             }
         );
     }
@@ -108,28 +124,34 @@ app.controller('goodsController', function ($scope, $controller, goodsService,up
     }
     $scope.initEntity = function () {
         $scope.entity = {goods:{},goodsDesc:{itemImages:[],specificationItems:[]}};
-        $scope.entity.goodsDesc.removeSpecificationValue = function (attributeName,attributeValue) {
 
-            for(var i =0 ; i< this.specificationItems.length;i++){
+
+
+        initDescFunction();
+    }
+    function initDescFunction() {
+        $scope.entity.goodsDesc.removeSpecificationValue = function (attributeName, attributeValue) {
+
+            for (var i = 0; i < this.specificationItems.length; i++) {
                 var specItem = this.specificationItems[i];
-                if(specItem.attributeName == attributeName){
-                    $scope.removeFromArray(specItem.attributeValue,attributeValue);
-                    if(specItem.attributeValue.length == 0){
-                        $scope.removeFromArray(this.specificationItems,specItem);
+                if (specItem.attributeName == attributeName) {
+                    $scope.removeFromArray(specItem.attributeValue, attributeValue);
+                    if (specItem.attributeValue.length == 0) {
+                        $scope.removeFromArray(this.specificationItems, specItem);
                     }
                     return;
                 }
             }
         }
-        $scope.entity.goodsDesc.pushSpecificationValue = function (attributeName,attributeValue) {
-            for(var i =0 ; i< this.specificationItems.length;i++){
+        $scope.entity.goodsDesc.pushSpecificationValue = function (attributeName, attributeValue) {
+            for (var i = 0; i < this.specificationItems.length; i++) {
                 var specItem = this.specificationItems[i];
-                if(specItem.attributeName == attributeName){
+                if (specItem.attributeName == attributeName) {
                     specItem.attributeValue.push(attributeValue);
                     return;
                 }
             }
-            this.specificationItems.push({"attributeName":attributeName,"attributeValue":[attributeValue]})
+            this.specificationItems.push({"attributeName": attributeName, "attributeValue": [attributeValue]})
         }
     }
     $scope.initImage = function () {
@@ -152,7 +174,10 @@ app.controller('goodsController', function ($scope, $controller, goodsService,up
         })
     })
     $scope.$watch("entity.goods.typeTemplateId",function (newValue,oldValue) {
-        initTypeTemplate();
+        if($location.search()['id'] == null){
+            initTypeTemplate();
+        }
+
         if(newValue == undefined || newValue == null){
             return;
         }
@@ -189,6 +214,7 @@ app.controller('goodsController', function ($scope, $controller, goodsService,up
             valueIndexs[j] = 0;
         }
         recursionPush(specificationItems,valueIndexs,0);
+        updateSpecListIds();
     },true);
 
     function recursionPush(specificationItems,valueIndexs,columnIndex) {
@@ -213,4 +239,32 @@ app.controller('goodsController', function ($scope, $controller, goodsService,up
     $scope.findValue = function (obj,key) {
         return obj[key];
     }
+    $scope.status=['未审核','已审核','审核未通过','关闭'];//商品状态
+
+    $scope.itemCatList=[];//商品分类列表
+//加载商品分类列表
+    $scope.findItemCatList=function(){
+        itemCatService.findAll().success(
+            function(response){
+                for(var i=0;i<response.length;i++){
+                    $scope.itemCatList[response[i].id]=response[i].name;
+                }
+            }
+        );
+    }
+
+    var specListIds =[];
+    updateSpecListIds = function () {
+        specListIds = [];
+        $scope.entity.goodsDesc.specificationItems.forEach(function (item) {
+            item.attributeValue.forEach(function (value) {
+                specListIds.push(value.id);
+            })
+        })
+    }
+
+    $scope.isInSpecificationItems = function (specOptionId) {
+        return specListIds.indexOf(specOptionId)>= 0;
+    }
+
 });	

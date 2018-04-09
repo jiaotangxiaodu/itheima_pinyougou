@@ -34,8 +34,10 @@
 
 </head>
 <body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="goodsController"
-      ng-init="initEntity()">
-{{entity}}
+      ng-init="initEntity();findOne()">
+entity = {{entity}}<br />
+typeTemplate = {{typeTemplate}}<br />
+entity.goodsDesc.specificationItems = {{entity.goodsDesc.specificationItems}}
 <!-- 正文区域 -->
 <section class="content">
 
@@ -212,9 +214,9 @@
                             <div ng-repeat="item in specList">
                                 <div class="col-md-2 title">{{item.text}}</div>
                                 <div class="col-md-10 data">
-					                               
+
                                     <span ng-repeat="option in item.options">
-                                        <input type="checkbox" ng-click="updateSpecAttribute($event,item.text,option)">{{option.optionName}}
+                                        <input type="checkbox" ng-click="updateSpecAttribute($event,item.text,option)" ng-checked="isInSpecificationItems(option.id)">{{option.optionName}}
                                     </span>
                                 </div>
                             </div>
@@ -322,17 +324,15 @@
     </div>
 </div>
 
-
-<!-- 正文区域 /-->
-<script type="text/javascript">
-
-    var editor;
-    KindEditor.ready(function (K) {
-        editor = K.create('textarea[name="content"]', {
-            allowFileManager: true
+    <script type="text/javascript">
+        var editor;
+        KindEditor.ready(function (K) {
+            editor = K.create('textarea[name="content"]', {
+                allowFileManager: true
+            });
         });
-    });
-</script>
+    </script>
+
 
 </body>
 
