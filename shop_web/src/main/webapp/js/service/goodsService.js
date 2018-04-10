@@ -32,4 +32,8 @@ app.service('goodsService', function ($http) {
     this.getCategroyOptionsByParentId = function (parentId) {
         return $http.get("../goods/getCategroyOptionsByParentId.do?parentId="+parentId);
     }
+    this.updateStatus=function(ids,status){
+        return $http.get('../goods/updateStatus.do?ids='+ids+"&status="+status);
+    }
+
 });

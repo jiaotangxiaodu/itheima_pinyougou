@@ -14,6 +14,7 @@ import com.itheima.pinyougou.pojo.TbTypeTemplateExample;
 import com.itheima.pinyougou.pojo.TbTypeTemplateExample.Criteria;
 import com.itheima.pinyougou.sellergoods.service.TypeTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -121,6 +122,7 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
     }
 
     @Override
+    @Transactional
     public List<Map> findSpecListById(Long typeTemplateId) {
         TbTypeTemplate tbTypeTemplate = typeTemplateMapper.selectByPrimaryKey(typeTemplateId);
 

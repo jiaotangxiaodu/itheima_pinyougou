@@ -14,6 +14,7 @@ import com.itheima.pinyougou.pojo.TbSpecificationOptionExample;
 import com.itheima.pinyougou.pojogroup.Specification;
 import com.itheima.pinyougou.sellergoods.service.SpecificationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -52,6 +53,7 @@ public class SpecificationServiceImpl implements SpecificationService {
     /**
      * 增加
      */
+    @Transactional
     @Override
     public void add(Specification specification) {
 
@@ -70,6 +72,7 @@ public class SpecificationServiceImpl implements SpecificationService {
      * 修改
      */
     @Override
+    @Transactional
     public void update(Specification specification) {
         TbSpecification tbSpecification = specification.getTbSpecification();
         List<TbSpecificationOption> tbSpecificationOptions = specification.getTbSpecificationOptions();
@@ -91,6 +94,7 @@ public class SpecificationServiceImpl implements SpecificationService {
      * @return
      */
     @Override
+    @Transactional
     public Specification findOne(Long id) {
         TbSpecification tbSpecification = specificationMapper.selectByPrimaryKey(id);
         Long specId = tbSpecification.getId();

@@ -11,6 +11,7 @@ import com.itheima.pinyougou.pojo.TbGoodsExample.Criteria;
 import com.itheima.pinyougou.pojogroup.Goods;
 import com.itheima.pinyougou.sellergoods.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -63,6 +64,7 @@ public class GoodsServiceImpl implements GoodsService {
     /**
      * 增加
      */
+    @Transactional
     @Override
     public void add(Goods goods) {
         goods.getGoods().setAuditStatus("0");
@@ -134,6 +136,7 @@ public class GoodsServiceImpl implements GoodsService {
      * @param id
      * @return
      */
+    @Transactional
     @Override
     public Goods findOne(Long id) {
         Goods goods=new Goods();
@@ -156,9 +159,12 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public void delete(Long[] ids) {
-        for (Long id : ids) {
-            goodsMapper.deleteByPrimaryKey(id);
+        for(Long id:ids){
+            TbGoods goods = goodsMapper.selectByPrimaryKey(id);
+            goods.setIsDelete("1");
+            goodsMapper.updateByPrimaryKey(goods);
         }
+
     }
 
 
@@ -168,6 +174,7 @@ public class GoodsServiceImpl implements GoodsService {
 
         TbGoodsExample example = new TbGoodsExample();
         Criteria criteria = example.createCriteria();
+        criteria.andIsDeleteIsNull();
 
         if (goods != null) {
             if (goods.getSellerId() != null && goods.getSellerId().length() > 0) {
@@ -199,6 +206,16 @@ public class GoodsServiceImpl implements GoodsService {
 
         Page<TbGoods> page = (Page<TbGoods>) goodsMapper.selectByExample(example);
         return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    @Override
+    public void updateStatus(Long[] ids, String status) {
+        for(Long id:ids){
+            TbGoods goods = goodsMapper.selectByPrimaryKey(id);
+            goods.setAuditStatus(status);
+            goodsMapper.updateByPrimaryKey(goods);
+        }
+
     }
 
 }
