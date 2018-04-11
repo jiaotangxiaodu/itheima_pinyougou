@@ -3,6 +3,9 @@ package com.itheima.pinyougou.content.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.itheima.pinyougou.cache.annotation.ClearCache;
+import com.itheima.pinyougou.cache.annotation.UseCache;
+import com.itheima.pinyougou.cache.aspect.RedisCacheAspect;
 import com.itheima.pinyougou.content.service.ContentService;
 import com.itheima.pinyougou.entity.PageResult;
 import com.itheima.pinyougou.mapper.TbContentMapper;
@@ -45,6 +48,7 @@ public class ContentServiceImpl implements ContentService {
     /**
      * 增加
      */
+    @ClearCache
     @Override
     public void add(TbContent content) {
         contentMapper.insert(content);
@@ -54,6 +58,7 @@ public class ContentServiceImpl implements ContentService {
     /**
      * 修改
      */
+    @ClearCache
     @Override
     public void update(TbContent content) {
         contentMapper.updateByPrimaryKey(content);
@@ -73,6 +78,7 @@ public class ContentServiceImpl implements ContentService {
     /**
      * 批量删除
      */
+    @ClearCache
     @Override
     public void delete(Long[] ids) {
         for (Long id : ids) {
@@ -108,8 +114,12 @@ public class ContentServiceImpl implements ContentService {
         return new PageResult(page.getTotal(), page.getResult());
     }
 
+
+    @UseCache
     @Override
     public List<TbContent> findByCategoryId(Long categoryId) {
+
+        Class<RedisCacheAspect> redisCacheAspectClass = RedisCacheAspect.class;
 
         TbContentExample example = new TbContentExample();
         Criteria criteria = example.createCriteria();

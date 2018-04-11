@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
         http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <dubbo:protocol name="dubbo" port="20882"></dubbo:protocol>
-	<dubbo:application name="pinyougou-content-service"/>
+    <dubbo:application name="pinyougou-content-service"/>
     <dubbo:registry address="zookeeper://47.106.65.208:2181"/>
-    <dubbo:annotation package="com.itheima.pinyougou.content.service.impl" />
-   
-   
+    <dubbo:annotation package="com.itheima.pinyougou.content.service.impl"/>
+
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <aop:config>
+        <aop:aspect ref="redisCacheAspect">
+            <aop:around method="useCache" pointcut="@annotation(com.itheima.pinyougou.cache.annotation.UseCache)"/>
+        </aop:aspect>
+    </aop:config>
 </beans>
