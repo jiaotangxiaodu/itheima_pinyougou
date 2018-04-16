@@ -181,6 +181,12 @@
                 <artifactId>activemq-all</artifactId>
                 <version>${activemq.version}</version>
             </dependency>
+            <!--springdatasolr-->
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-solr</artifactId>
+                <version>1.5.5.RELEASE</version>
+            </dependency>
             <!-- 身份验证 -->
             <dependency>
                 <groupId>org.springframework.security</groupId>

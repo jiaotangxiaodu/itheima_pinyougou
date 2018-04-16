@@ -47,6 +47,7 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
         </dependency>
+
         <!-- dubbo相关 -->
         <dependency>
             <groupId>com.alibaba</groupId>
