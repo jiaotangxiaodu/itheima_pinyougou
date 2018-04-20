@@ -1,15 +1,14 @@
 package com.itheima.pinyougou.manager.controller;
-import java.util.List;
-
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.itheima.pinyougou.entity.PageResult;
+import com.itheima.pinyougou.entity.Result;
+import com.itheima.pinyougou.pojo.TbItem;
+import com.itheima.pinyougou.sellergoods.service.ItemService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.alibaba.dubbo.config.annotation.Reference;
-import com.itheima.pinyougou.pojo.TbItem;
-import com.itheima.pinyougou.sellergoods.service.ItemService;
 
-import com.itheima.pinyougou.entity.PageResult;
-import com.itheima.pinyougou.entity.Result;
+import java.util.List;
 /**
  * controller
  * @author Administrator
@@ -101,7 +100,6 @@ public class ItemController {
 	
 		/**
 	 * 查询+分页
-	 * @param brand
 	 * @param page
 	 * @param rows
 	 * @return

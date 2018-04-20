@@ -84,5 +84,9 @@ app.controller('contentController', function ($scope, $controller, contentServic
             $scope.contentList[categoryId] = response;
         })
     }
+    $scope.search=function(){
+        location.href="http://localhost:9104/search.html#?keywords="+$scope.keywords;
+    }
+
 
 });	

@@ -14,8 +14,10 @@ import com.itheima.pinyougou.pojo.TbTypeTemplateExample;
 import com.itheima.pinyougou.pojo.TbTypeTemplateExample.Criteria;
 import com.itheima.pinyougou.sellergoods.service.TypeTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +33,34 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
     private TbTypeTemplateMapper typeTemplateMapper;
     @Autowired
     private TbSpecificationOptionMapper specificationOptionMapper;
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    /**
+     * 将数据存入缓存
+     */
+    private void saveToRedis(){
+        //获取模板数据
+        List<TbTypeTemplate> typeTemplateList = findAll();
+
+        Map brandMap = new HashMap();
+        Map specMap = new HashMap();
+
+
+        //循环模板
+        for(TbTypeTemplate typeTemplate :typeTemplateList){
+            //存储品牌列表
+            List<Map> brandList = JSON.parseArray(typeTemplate.getBrandIds(), Map.class);
+            brandMap.put(typeTemplate.getId(),brandList);
+
+            //存储规格列表
+            List<Map> specList = findSpecListById(typeTemplate.getId());//根据模板ID查询规格列表
+            specMap.put(typeTemplate.getId(),specList);
+        }
+        redisTemplate.boundHashOps("brandList").putAll(brandMap);
+        redisTemplate.boundHashOps("specList").putAll(specMap);
+    }
+
 
     /**
      * 查询全部
@@ -92,7 +122,6 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
     @Override
     public PageResult findPage(TbTypeTemplate typeTemplate, int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
-
         TbTypeTemplateExample example = new TbTypeTemplateExample();
         Criteria criteria = example.createCriteria();
 
@@ -111,8 +140,8 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
             }
 
         }
-
         Page<TbTypeTemplate> page = (Page<TbTypeTemplate>) typeTemplateMapper.selectByExample(example);
+        saveToRedis();//存入数据到缓存
         return new PageResult(page.getTotal(), page.getResult());
     }
 

@@ -96,7 +96,7 @@ app.controller('goodsController', function ($scope, $controller, goodsService,it
                     $scope.reloadList();//刷新列表
                     $scope.selectIds=[];//清空ID集合
                 }else{
-                    alert(response.message);
+                    alert(response.info);
                 }
             }
         );

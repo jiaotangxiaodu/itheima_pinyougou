@@ -13,6 +13,7 @@ import com.itheima.pinyougou.sellergoods.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -215,6 +216,16 @@ public class GoodsServiceImpl implements GoodsService {
             goods.setAuditStatus(status);
             goodsMapper.updateByPrimaryKey(goods);
         }
+
+    }
+
+    @Override
+    public List<TbItem> findItemListByGoodsIdandStatus(Long[] goodsIds, String status) {
+        TbItemExample example=new TbItemExample();
+        TbItemExample.Criteria criteria = example.createCriteria();
+        criteria.andGoodsIdIn(Arrays.asList(goodsIds));
+        criteria.andStatusEqualTo(status);
+        return itemMapper.selectByExample(example);
 
     }
 

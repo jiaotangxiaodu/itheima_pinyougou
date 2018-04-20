@@ -10,7 +10,9 @@ import com.itheima.pinyougou.pojo.TbItemCatExample;
 import com.itheima.pinyougou.pojo.TbItemCatExample.Criteria;
 import com.itheima.pinyougou.sellergoods.service.ItemCatService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,11 +21,13 @@ import java.util.Map;
  *
  * @author Administrator
  */
-@Service
+@Service(timeout = 30000)
 public class ItemCatServiceImpl implements ItemCatService {
 
     @Autowired
     private TbItemCatMapper itemCatMapper;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * 查询全部
@@ -113,6 +117,15 @@ public class ItemCatServiceImpl implements ItemCatService {
         TbItemCatExample example = new TbItemCatExample();
         Criteria criteria = example.createCriteria();
         criteria.andParentIdEqualTo(parentId);
+        //每次执行查询的时候，一次性读取缓存进行存储 (因为每次增删改都要执行此方法)
+        List<TbItemCat> list = findAll();
+        Map<String,Long> itemCatMap = new HashMap<>();
+        for(TbItemCat itemCat:list){
+//            redisTemplate.boundHashOps("itemCat").put(itemCat.getName(), itemCat.getTypeId());
+            itemCatMap.put(itemCat.getName(),itemCat.getTypeId());
+
+        }
+        redisTemplate.boundHashOps("itemCat").putAll(itemCatMap);
         List<TbItemCat> tbItemCats = itemCatMapper.selectByExample(example);
         return tbItemCats;
     }
