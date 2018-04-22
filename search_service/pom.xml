@@ -97,6 +97,13 @@
             <artifactId>servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
+
+        <!--activemq-->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-client</artifactId>
+        </dependency>
+
         <!-- 项目内依赖 -->
 
         <dependency>
