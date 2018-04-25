@@ -45,7 +45,7 @@ app.controller('addressController' ,function($scope,$controller   ,addressServic
 					//重新查询 
 		        	$scope.reloadList();//重新加载
 				}else{
-					alert(response.message);
+					alert(response.info);
 				}
 			}		
 		);				

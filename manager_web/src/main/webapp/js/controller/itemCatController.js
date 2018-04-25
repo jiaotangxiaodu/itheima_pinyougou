@@ -46,7 +46,7 @@ app.controller('itemCatController', function ($scope, $controller, itemCatServic
                     // $scope.reloadList();//重新加载
                     $scope.loadGroupByLevel(lastLevel());
                 } else {
-                    alert(response.message);
+                    alert(response.info);
                 }
             }
         );
