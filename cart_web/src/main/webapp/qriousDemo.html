@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="plugins/qrious.min.js"></script>
+    <script type="text/javascript">
+        var refreshQR = function () {
+            var val =  document.getElementById('input1').value;
+            var qr = new QRious({
+                element: document.getElementById('qrious'),
+                size: 250,
+                level: 'H',
+                value: val
+            });
+        }
+    </script>
+</head>
+<body>
+    <input type="text" id="input1">
+    <input type="button" onclick="refreshQR()" value="刷新"><br />
+    <img id="qrious">
+</body>
+</html>
